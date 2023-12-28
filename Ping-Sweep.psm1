@@ -1,4 +1,4 @@
-function Test-Old {
+function Ping-Sweep {
     [CmdletBinding()]
     param (
         [Parameter(Position = 0, Mandatory = $true)]
