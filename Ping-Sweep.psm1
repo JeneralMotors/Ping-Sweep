@@ -1,4 +1,4 @@
-function Ping-Sweep {
+function Test-Old {
     [CmdletBinding()]
     param (
         [Parameter(Position = 0, Mandatory = $true)]
@@ -51,6 +51,3 @@ function Ping-Sweep {
         Write-Output $aliveHosts
     }
 }
-
-# Example usage
-Ping-Sweep -Target "192.168.1"
