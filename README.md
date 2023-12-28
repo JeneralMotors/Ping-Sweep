@@ -17,9 +17,11 @@ The script displays a progress bar indicating the completion rate of the ping sw
 - `IPAdress`: The IP Address of the Host.
 - `Latency`: The round-trip for the ping request.
 - `Status`: The status of the request.
-![Alt text](https://github.com/JeneralMotors/Ping-Sweep/blob/main/resources/output.png)
 
 ## How to Run
 ```powershell
 Ping-Sweep -Target "192.168.100"
 Ping-Sweep -Target "10.10.48"
+```
+## Example
+![Alt text](https://github.com/JeneralMotors/Ping-Sweep/blob/main/resources/output.png)
