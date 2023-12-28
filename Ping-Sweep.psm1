@@ -1,32 +1,30 @@
-# Define a function named Ping-Sweep
-function Ping-Sweep {
+function Test-Old {
     [CmdletBinding()]
     param (
-        # Define a parameter named Target which represents the base IP address
         [Parameter(Position = 0, Mandatory = $true)]
         [string]$Target
     )
 
     process {
-        # Initialize an array to store alive hosts
         $aliveHosts = @()
-        
-        # Initialize an array to store background jobs
         $jobs = @()
 
-        # Iterate through all possible host addresses (1 to 254)
-        1..254 | ForEach-Object {
-            # Construct the IP address
+        # Get the total number of iterations
+        $totalIterations = 254
+
+        1..$totalIterations | ForEach-Object {
             $ip = "$Target.$_"
-            
-            # Start a background job to test connection to the IP address
+
+            # Display progress
+            $percentComplete = ($_ / $totalIterations) * 100
+            Write-Progress -Activity "Ping-Sweep" -Status "Scanning $ip" -PercentComplete $percentComplete
+
+            # Start a job for each IP
             $jobs += Start-Job -ScriptBlock {
                 param ($ip)
-                
-                # Test the connection to the IP address
                 $result = Test-Connection -ComputerName $ip -Count 1 -Timeout 1
 
-                # Check the status and add to the aliveHosts array if successful
+                # Check the status and add to the aliveHosts array
                 if ($result.Status -eq "Success") {
                     [PSCustomObject]@{
                         IPAddress = $result.DisplayAddress
@@ -37,16 +35,22 @@ function Ping-Sweep {
             } -ArgumentList $ip
         }
 
-        # Wait for all background jobs to complete
+        # Wait for all jobs to complete
         $null = $jobs | Wait-Job
 
-        # Receive the results from all background jobs
+        # Receive the results from all jobs
         $aliveHosts = $jobs | Receive-Job
 
-        # Clean up background jobs
+        # Clean up jobs
         $jobs | Remove-Job
+
+        # Clear the progress bar
+        Write-Progress -Completed
 
         # Output the list of alive hosts with additional details
         Write-Output $aliveHosts
     }
 }
+
+# Example usage
+Ping-Sweep -Target "192.168.1"
