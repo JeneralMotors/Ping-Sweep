@@ -10,6 +10,9 @@ The `Ping-Sweep` script is a PowerShell function designed to perform a ping swee
 2. **Parameters:**
    - `$Target`: The first three octets of the base IP address for the ping sweep.
 
+## Progress and Completion
+The script displays a progress bar indicating the completion rate of the ping sweep.
+
 ## Output
 - `IPAdress`: The IP Address of the Host.
 - `Latency`: The round-trip for the ping request.
